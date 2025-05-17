@@ -16,19 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="bg-white shadow-sm">
+        <header className="bg-white shadow-md">
           <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <Link href="/" className="text-lg font-bold text-blue-800">Chinese Flashcards</Link>
-            <nav>
-              <ul className="flex space-x-6">
-                <li>
-                  <Link href="/" className="text-gray-600 hover:text-blue-600">Flashcards</Link>
-                </li>
-                <li>
-                  <Link href="/search" className="text-gray-600 hover:text-blue-600">API Search</Link>
-                </li>
-              </ul>
-            </nav>
+           
           </div>
         </header>
         <main>{children}</main>

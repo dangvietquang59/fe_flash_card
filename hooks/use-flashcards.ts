@@ -47,7 +47,7 @@ export const useFlashcards = ({
 
     try {
       // Construct the API URL with query parameters
-      let url = 'https://be-flash-card.onrender.com/api/flashcards';
+      let url = `${process.env.NEXT_PUBLIC_URL_API}/flashcards`;
       
       // Add parameters
       const params = new URLSearchParams();
