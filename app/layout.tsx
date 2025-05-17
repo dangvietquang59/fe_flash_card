@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import './globals.css'
+import '../styles/globals.css'
 
 export const metadata: Metadata = {
   title: 'Chinese Flashcards',
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="font-noto-serif-sc">
         <header className="bg-white shadow-md">
           <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <Link href="/" className="text-lg font-bold text-blue-800">Chinese Flashcards</Link>

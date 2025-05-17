@@ -201,6 +201,12 @@ export default function FlashCardApp() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-4 md:p-8">
       <div className="mx-auto max-w-4xl">
+        {/* Test font component */}
+        <div className="mb-8 p-4 bg-blue-50 rounded-lg text-center">
+          <h2 className="text-3xl font-noto-serif-sc">测试 Noto Serif SC 字体</h2>
+          <p className="text-xl font-noto-serif-sc mt-2">这是一个测试，看看字体是否正确加载。</p>
+        </div>
+        
         <h1 className="mb-6 text-center text-3xl font-bold text-blue-800">Flash Card Từ Vựng Tiếng Trung</h1>
 
         <div>
@@ -254,7 +260,7 @@ export default function FlashCardApp() {
               </Button>
             </div>
           </div>
-
+          
           <Progress value={progress} className="mb-8 h-2" />
 
           {/* Loading state */}
