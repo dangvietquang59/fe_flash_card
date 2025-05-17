@@ -112,7 +112,7 @@ export default function FlashCardApp() {
     return (
       <>
         <div
-          className="relative mx-auto mb-8 h-80 w-full max-w-xl cursor-pointer rounded-xl bg-white shadow-lg perspective-1000"
+          className="relative mx-auto mb-8 min-h-[400px] md:min-h-[500px] w-full max-w-xl cursor-pointer rounded-xl bg-white shadow-lg perspective-1000"
           onClick={handleFlip}
         >
           <div
@@ -128,10 +128,12 @@ export default function FlashCardApp() {
                 HSK {currentCard.level}
               </Badge>
             </div>
-            <h2 className="mb-4 text-center text-5xl font-bold text-gray-800">
-              {currentCard.word}
-            </h2>
-            <p className="text-center text-xl text-gray-600">{currentCard.pinyin}</p>
+         <div className="flex flex-col gap-2 justify-center items-center my-auto">
+              <h2 className="mb-4 text-center text-[72px] font-bold text-gray-800">
+                {currentCard.word}
+              </h2>
+              <p className="text-center text-[30px] text-gray-600">{currentCard.pinyin}</p>
+         </div>
             <div className="mt-auto text-center text-sm text-gray-400">Nhấn để xem nghĩa</div>
           </div>
 
@@ -148,19 +150,22 @@ export default function FlashCardApp() {
                 HSK {currentCard.level}
               </Badge>
             </div>
-            <h3 className="mb-4 text-center text-2xl font-bold text-gray-800">
+            <h3 className="mb-4 text-center text-3xl font-bold text-gray-800">
               {currentCard.meaning}
             </h3>
-            <div className="mb-4 rounded-lg bg-blue-50 p-4">
-              <p className="mb-2 text-lg font-medium text-gray-700">{currentCard.word}</p>
-              <p className="mb-4 text-gray-600">{currentCard.pinyin}</p>
+            <div className="mb-4 rounded-lg bg-blue-50 p-4 w-full">
+                <p className="mb-2 text-[20px] font-bold text-gray-700">{currentCard.word}</p>
+                <p className="mb-4 text-[20px] text-gray-600">{`[ ${currentCard.pinyin} ]`}</p>
               {currentCard.example_chinese && (
                 <div className="rounded-md bg-white p-3">
-                  <p className="text-sm text-gray-700">
-                    <span className="font-medium">Ví dụ:</span> {currentCard.example_chinese}
+                  <p className="text-[16px] text-gray-700">
+                    <span className="font-medium">Ví dụ:</span> 
                   </p>
-                  <p className="text-sm text-gray-600">{currentCard.example_pinyin}</p>
-                  <p className="text-sm text-gray-700">{currentCard.example_meaning}</p>
+                 <div className="flex flex-col gap-2 justify-center items-center">
+                    <p className="text-[16px] text-gray-600">{currentCard.example_chinese}</p>
+                    <p className="text-[16px] text-gray-600">{currentCard.example_pinyin}</p>
+                    <p className="text-[16px] text-gray-700">{currentCard.example_meaning}</p>
+                 </div>
                 </div>
               )}
             </div>
