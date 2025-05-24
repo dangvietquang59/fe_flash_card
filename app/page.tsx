@@ -19,7 +19,7 @@ export default function FlashCardApp() {
   const [isFlipped, setIsFlipped] = useState(false)
   const [progress, setProgress] = useState(0)
   const [completedCards, setCompletedCards] = useState<number[]>([])
-  const [selectedLevel, setSelectedLevel] = useState<number>(1)
+  const [selectedLevel, setSelectedLevel] = useState<number>(0)
 
   const [level, setLevel] = useState<number | undefined>(1);
   const { flashcards, isLoading, error, query, setQuery } = useFlashcards({
@@ -27,7 +27,7 @@ export default function FlashCardApp() {
     initialQuery: '',
   });
 
-  const hskLevels = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  const hskLevels = [0,1, 2, 3, 4, 5, 6, 7, 8, 9]
   
   // Cập nhật level khi selectedLevel thay đổi
   useEffect(() => {
@@ -202,11 +202,7 @@ export default function FlashCardApp() {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-4 md:p-8">
       <div className="mx-auto max-w-4xl">
         {/* Test font component */}
-        <div className="mb-8 p-4 bg-blue-50 rounded-lg text-center">
-          <h2 className="text-3xl font-noto-serif-sc">测试 Noto Serif SC 字体</h2>
-          <p className="text-xl font-noto-serif-sc mt-2">这是一个测试，看看字体是否正确加载。</p>
-        </div>
-        
+      
         <h1 className="mb-6 text-center text-3xl font-bold text-blue-800">Flash Card Từ Vựng Tiếng Trung</h1>
 
         <div>
@@ -246,7 +242,7 @@ export default function FlashCardApp() {
                       checked={selectedLevel === level}
                       onClick={() => {setSelectedLevel(level)}}
                     >
-                      HSK {level}
+                     {level === 0 ? "Tất cả" : `HSK ${level}`}
                     </DropdownMenuCheckboxItem>
                   ))}
                 </DropdownMenuContent>
