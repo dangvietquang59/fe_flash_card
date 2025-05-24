@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-noto-serif-sc">
+      <body className="font-noto-serif-sc" cz-shortcut-listen="true">
         <header className="bg-white shadow-md">
           <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <Link href="/" className="text-lg font-bold text-blue-800">Chinese Flashcards</Link>

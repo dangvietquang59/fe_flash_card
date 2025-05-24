@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { useFlashcards } from "@/hooks/use-flashcards"
+import dynamic from "next/dynamic"
+
+const FlashcardQuiz = dynamic(() => import("@/components/FlashcardQuiz"), { ssr: false })
 
 export default function FlashCardApp() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -20,6 +23,7 @@ export default function FlashCardApp() {
   const [progress, setProgress] = useState(0)
   const [completedCards, setCompletedCards] = useState<number[]>([])
   const [selectedLevel, setSelectedLevel] = useState<number>(0)
+  const [showQuiz, setShowQuiz] = useState(false)
 
   const [level, setLevel] = useState<number | undefined>(1);
   const { flashcards, isLoading, error, query, setQuery } = useFlashcards({
@@ -204,91 +208,109 @@ export default function FlashCardApp() {
         {/* Test font component */}
       
         <h1 className="mb-6 text-center text-3xl font-bold text-blue-800">Flash Card Từ Vựng Tiếng Trung</h1>
-
-        <div>
-          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="relative flex-1">
-              <Input
-                type="text"
-                placeholder="Tìm kiếm từ vựng..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="pl-10 pr-10"
-              />
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              {query && (
-                <button
-                  onClick={clearSearch}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-
-            {/* Bộ lọc cấp độ HSK */}
-            <div className="flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-2">
-                    <Filter className="h-4 w-4" />
-                    <span>HSK {selectedLevel}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  {hskLevels.map((level) => (
-                    <DropdownMenuCheckboxItem
-                      key={level}
-                      checked={selectedLevel === level}
-                      onClick={() => {setSelectedLevel(level)}}
-                    >
-                     {level === 0 ? "Tất cả" : `HSK ${level}`}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <span className="text-sm text-gray-600">
-                Đã học: {completedCards.length}/{flashcards.length}
-              </span>
-              <Button variant="outline" size="icon" onClick={resetProgress} title="Đặt lại tiến trình">
-                <RotateCw className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-          
-          <Progress value={progress} className="mb-8 h-2" />
-
-          {/* Loading state */}
-          {isLoading && (
-            <div className="flex justify-center my-8">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
-            </div>
-          )}
-
-          {/* Error state */}
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-4">
-              <span className="block sm:inline">{error}</span>
-            </div>
-          )}
-
-          {/* Content */}
-          {!isLoading && !error && (
-            <>
-              {flashcards.length > 0 ? (
-                renderFlashcard()
-              ) : (
-                <div className="flex h-80 flex-col items-center justify-center rounded-xl bg-white p-6 text-center shadow-lg">
-                  <p className="mb-4 text-xl text-gray-600">Không tìm thấy từ vựng phù hợp</p>
-                  <div className="flex gap-2">
-                    <Button onClick={clearSearch}>Xóa tìm kiếm</Button>
-                  </div>
-                </div>
-              )}
-            </>
-          )}
+        <div className="flex justify-center mb-6">
+          <Button
+            variant={showQuiz ? "outline" : "default"}
+            onClick={() => setShowQuiz(false)}
+            className="mr-2"
+          >
+            Học Flashcard
+          </Button>
+          <Button
+            variant={showQuiz ? "default" : "outline"}
+            onClick={() => setShowQuiz(true)}
+          >
+            Quiz Trắc nghiệm
+          </Button>
         </div>
+        {showQuiz ? (
+          <FlashcardQuiz />
+        ) : (
+          <div>
+            <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="relative flex-1">
+                <Input
+                  type="text"
+                  placeholder="Tìm kiếm từ vựng..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="pl-10 pr-10"
+                />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                {query && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+
+              {/* Bộ lọc cấp độ HSK */}
+              <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <Filter className="h-4 w-4" />
+                      <span>HSK {selectedLevel}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    {hskLevels.map((level) => (
+                      <DropdownMenuCheckboxItem
+                        key={level}
+                        checked={selectedLevel === level}
+                        onClick={() => {setSelectedLevel(level)}}
+                      >
+                       {level === 0 ? "Tất cả" : `HSK ${level}`}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <span className="text-sm text-gray-600">
+                  Đã học: {completedCards.length}/{flashcards.length}
+                </span>
+                <Button variant="outline" size="icon" onClick={resetProgress} title="Đặt lại tiến trình">
+                  <RotateCw className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            
+            <Progress value={progress} className="mb-8 h-2" />
+
+            {/* Loading state */}
+            {isLoading && (
+              <div className="flex justify-center my-8">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+              </div>
+            )}
+
+            {/* Error state */}
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-4">
+                <span className="block sm:inline">{error}</span>
+              </div>
+            )}
+
+            {/* Content */}
+            {!isLoading && !error && (
+              <>
+                {flashcards.length > 0 ? (
+                  renderFlashcard()
+                ) : (
+                  <div className="flex h-80 flex-col items-center justify-center rounded-xl bg-white p-6 text-center shadow-lg">
+                    <p className="mb-4 text-xl text-gray-600">Không tìm thấy từ vựng phù hợp</p>
+                    <div className="flex gap-2">
+                      <Button onClick={clearSearch}>Xóa tìm kiếm</Button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
